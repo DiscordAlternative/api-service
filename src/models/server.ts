@@ -9,10 +9,10 @@ export interface Server {
     description?: string;
     ownerId: ObjectId;
     vanityUrl?: string;
-  member Count: number;
-features: string[];
-createdAt: Date;
-updatedAt: Date;
+    memberCount: number;
+    features: string[];
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface ServerMember {

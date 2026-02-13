@@ -70,7 +70,7 @@ export function parseExpiresIn(expiresIn: string): number {
     const value = parseInt(match[1]);
     const unit = match[2];
 
-    const multipliers: Record<string, number> = {
+    const multipliers: Record<string, number>= {
         s: 1,
         m: 60,
         h: 3600,
