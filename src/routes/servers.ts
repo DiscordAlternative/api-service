@@ -260,6 +260,7 @@ export const serverRoutes = new Elysia({ prefix: '/servers' })
 
     // GET /servers/:serverId/channels
     .get('/:serverId/channels', async ({ headers, params: { serverId }, set }) => {
+        logger.info({ serverId }, 'Fetching server channels');
         const auth = getAuth(headers);
         const db = getDatabase();
 

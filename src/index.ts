@@ -28,7 +28,6 @@ const app = new Elysia()
             origin: CORS_ORIGIN,
             methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
             credentials: true,
-            allowedHeaders: ['Content-Type', 'Authorization'],
         })
     )
 
@@ -56,14 +55,16 @@ const app = new Elysia()
     .use(messageRoutes)
 
     // Global error handler
+    // Global error handler
     .onError(({ code, error, set }) => {
-        logger.error({ code, error: error.message, stack: error.stack }, 'Request error');
+        const err = error as any;
+        logger.error({ code, error: err.message, stack: err.stack }, 'Request error');
 
         if (code === 'VALIDATION') {
             set.status = 422;
             return {
                 error: 'Validation Error',
-                message: error.message,
+                message: err.message,
             };
         }
 
@@ -75,7 +76,7 @@ const app = new Elysia()
             };
         }
 
-        if (error.message === 'Unauthorized') {
+        if (err.message === 'Unauthorized') {
             set.status = 401;
             return {
                 error: 'Unauthorized',
@@ -87,7 +88,7 @@ const app = new Elysia()
         set.status = 500;
         return {
             error: 'Internal Server Error',
-            message: process.env.NODE_ENV === 'production' ? 'An error occurred' : error.message,
+            message: process.env.NODE_ENV === 'production' ? 'An error occurred' : err.message,
         };
     })
 
